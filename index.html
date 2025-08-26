@@ -2,121 +2,162 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <title>Fantacalcio - Asta</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 <style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f4f9;
-    margin: 0;
-    padding: 15px;
-  }
-  h1 {
-    text-align: center;
-    font-size: 26px;
-    background-color: rgb(47,151,242);
-    color: white;
-    padding: 15px 0;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  .header {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
-  .header div { font-size: 16px; margin: 5px 0; }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 14px;
-    text-align: center;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ccc;
-  }
-  input {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    padding: 5px;
-    font-size: 17px;
-    box-sizing: border-box;
-  }
-  input:focus {
-    outline: none;
-    border-color: #47a1f2;
-    background: #eaf4ff;
-  }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(90deg, #2f97f2, #6ac1ff);
+  margin: 0;
+  padding: 15px;
+}
 
-  .category {
-    margin-bottom: 30px;
-    border-radius: 10px;
+h1 {
+  text-align: center;
+  font-size: 28px;
+  color: white;
+  padding: 15px 0;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 
-  }
-  .portieri { border: 2px solid orange; }
-  .difensori { border: 2px solid green; }
-  .centrocampisti { border: 2px solid blue; }
-  .attaccanti { border: 2px solid red; }
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  text-align: center;
+  gap: 15px;
+  padding: 10px 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
-  .category h2 {
-    margin:0 0 10px 0;
-    padding:8px;
-    border-radius:8px 8px 0 0;
-    color:white;
-    text-align:center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-  .portieri h2 { background: orange; }
-  .difensori h2 { background: green; }
-  .centrocampisti h2 { background: blue; }
-  .attaccanti h2 { background: red; }
+.header div {
+  font-size: 16px;
+  width: 350px;
+  background: linear-gradient(145deg, #ffffff, #e0f0ff);
+  padding: 12px 15px;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 
-  .tot-reparto {
-    text-align:center;
-    font-weight:bold;
-    background: #f1f1f1;
-    padding: 6px;
-    margin-top:5px;
-    border-radius:10px;
-    font-size:15px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  }
+.header div.animate {
+  animation: scaleGlow 0.4s ease forwards;
+}
 
-  button {
-    padding:10px 20px;
-    font-size:16px;
-    background:#47a1f2;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    margin-bottom:20px;
-  }
-  button:hover { background:#1f80d2; }
+@keyframes scaleGlow {
+  0% { transform: scale(1); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+  50% { transform: scale(1.2); box-shadow: 0 10px 25px rgba(47,151,242,0.6); }
+  100% { transform: scale(1); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+}
 
-  @media(max-width:600px){
-    .header{flex-direction:column; align-items:center;}
-    table{font-size:12px;}
-    th, td{padding:5px;}
-    input{font-size:12px;padding:4px;}
-  }
+.category {
+  margin-bottom: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  /* padding: 10px; */
+  background: white;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.category:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.category h2 {
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.portieri h2 { background: orange; }
+.difensori h2 { background: rgb(0, 128, 0); }
+.centrocampisti h2 { background: blue; }
+.attaccanti h2 { background: red; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+tr:hover { background: #f9f9f9; transition: background 0.2s; }
+
+input {
+  border: none;
+  width: 80%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  background: #f0f2f5;
+  transition: all 0.2s;
+}
+input:focus {
+  outline: none;
+  background: #e4f0ff;
+  box-shadow: 0 0 5px rgba(47,151,242,0.5);
+}
+
+.tot-reparto {
+  text-align:center;
+  font-weight:bold;
+  background: #f1f1f1;
+  padding: 8px;
+  /* border-radius: 10px; */
+  /* margin-top: 8px; */
+  font-size:15px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+button {
+  display:block;
+  margin: 0 auto 25px auto;
+  padding:12px 25px;
+  font-size:16px;
+  background:#2f97f2;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover { background:#1f80d2; transform: translateY(-2px); }
+
+@media(max-width:600px){
+  .header{flex-direction:column; align-items:center;}
+  th, td{padding:8px;}
+  input{font-size:13px; padding:6px;}
+}
 </style>
 </head>
 <body>
+
 <h1>Asta Fantacalcio</h1>
 
 <div class="header">
@@ -130,49 +171,84 @@
 <script>
 const budgetIniziale = 1000;
 const reparti = [
-  {nome:"PORTIERI", id:"portieri", n:3, colore:"orange"},
-  {nome:"DIFENSORI", id:"difensori", n:8, colore:"green"},
-  {nome:"CENTROCAMPISTI", id:"centrocampisti", n:8, colore:"blue"},
-  {nome:"ATTACCANTI", id:"attaccanti", n:6, colore:"red"}
+  {nome:"PORTIERI", id:"portieri", n:3, icona:"fas fa-hand-paper"},
+  {nome:"DIFENSORI", id:"difensori", n:8, icona:"fas fa-shield-alt"},
+  {nome:"CENTROCAMPISTI", id:"centrocampisti", n:8, icona:"fas fa-futbol"},
+  {nome:"ATTACCANTI", id:"attaccanti", n:6, icona:"fas fa-bolt"}
 ];
 
 // Genera tabelle
-function generaTabella(reparto){
-  document.write(`<div class="category ${reparto.id}" id="cat-${reparto.id}">`);
-  document.write(`<h2>${reparto.nome}</h2>`); // intestazione card esterna
+function generaTabella(r){
+  document.write(`<div class="category ${r.id}">`);
+  document.write(`<h2><i class="${r.icona}"></i> ${r.nome}</h2>`); // intestazione card esterna
   document.write(`<table><thead><tr><th>#</th><th>Nome</th><th>Prezzo</th></tr></thead>`);
-  document.write(`<tbody id="${reparto.id}">`);
-  for(let i=1;i<=reparto.n;i++){
-    document.write(`<tr><td>${i}.</td>`);
-    document.write(`<td><input type='text' placeholder='Nome'></td>`);
-    document.write(`<td><input type='number' class='prezzo' value='' min='0'></td></tr>`);
+  document.write(`<tbody id="${r.id}">`);
+  for(let i=1;i<=r.n;i++){
+    document.write(`<tr><td>${i}.</td><td><input type="text" placeholder="Nome"></td>`);
+    document.write(`<td><input type="number" class="prezzo" value="" min="0"></td></tr>`);
   }
   document.write(`</tbody></table>`);
-  document.write(`<div class="tot-reparto" id="tot-${reparto.id}">Totale ${reparto.nome}: 0</div>`);
+  document.write(`<div class="tot-reparto" id="tot-${r.id}">Totale ${r.nome}: 0</div>`);
   document.write(`</div>`);
 }
 reparti.forEach(generaTabella);
 
-// Funzione aggiorna budget e totali
+// Aggiorna budget e totali
 function aggiornaBudget(){
   let totaleGenerale=0;
   reparti.forEach(r=>{
-    let totale=0;
+    let tot=0;
     document.querySelectorAll(`#${r.id} .prezzo`).forEach(i=>{
       let v=parseInt(i.value);
-      if(!isNaN(v)) totale+=v;
+      if(!isNaN(v)) tot+=v;
     });
-    document.getElementById(`tot-${r.id}`).innerText = `Totale ${r.nome}: ${totale}`;
-    totaleGenerale+=totale;
+    const divTot = document.getElementById(`tot-${r.id}`);
+    divTot.innerText = `Totale ${r.nome}: ${tot}`;
+    // cambio colore se budget reparto alto
+    if(tot>budgetIniziale*0.5) divTot.style.background="#ffd8d8"; 
+    else divTot.style.background="#f1f1f1";
+    totaleGenerale+=tot;
   });
   document.getElementById("totaleSpeso").innerText=totaleGenerale;
   document.getElementById("creditiRimasti").innerText=budgetIniziale-totaleGenerale;
   salvaDati();
 }
 
+function animaValore(id){
+  const el = document.getElementById(id);
+  el.classList.remove("animate");
+  void el.offsetWidth; // forza reflow
+  el.classList.add("animate");
+}
+
+function aggiornaBudget(){
+  let totaleGenerale=0;
+  reparti.forEach(r=>{
+    let tot=0;
+    document.querySelectorAll(`#${r.id} .prezzo`).forEach(i=>{
+      let v=parseInt(i.value);
+      if(!isNaN(v)) tot+=v;
+    });
+    const divTot = document.getElementById(`tot-${r.id}`);
+    divTot.innerText = `Totale ${r.nome}: ${tot}`;
+    if(tot>budgetIniziale*0.5) divTot.style.background="#ffd8d8"; 
+    else divTot.style.background="#f1f1f1";
+    totaleGenerale+=tot;
+  });
+  const totaleEl = document.getElementById("totaleSpeso");
+  const creditiEl = document.getElementById("creditiRimasti");
+  totaleEl.innerText=totaleGenerale;
+  creditiEl.innerText=budgetIniziale-totaleGenerale;
+
+  // animazioni
+  animaValore("totaleSpeso");
+  animaValore("creditiRimasti");
+    salvaDati();
+}
+
 // Salvataggio su localStorage
 function salvaDati(){
-  const dati = {};
+  const dati={};
   reparti.forEach(r=>{
     dati[r.id]=[];
     document.querySelectorAll(`#${r.id} tr`).forEach(tr=>{
@@ -186,7 +262,7 @@ function salvaDati(){
 
 // Recupero dati da localStorage
 function caricaDati(){
-  const dati = JSON.parse(localStorage.getItem("fantacalcio"));
+  const dati=JSON.parse(localStorage.getItem("fantacalcio"));
   if(!dati) return;
   reparti.forEach(r=>{
     const rows = document.querySelectorAll(`#${r.id} tr`);
@@ -200,7 +276,7 @@ function caricaDati(){
   aggiornaBudget();
 }
 
-// Scarica dati come CSV
+// Scarica CSV
 function scaricaDati(){
   let csv="Reparto,Numero,Nome,Prezzo\n";
   reparti.forEach(r=>{
@@ -218,12 +294,11 @@ function scaricaDati(){
 }
 
 document.addEventListener("input", e=>{
-  if(e.target.classList.contains("prezzo") || e.target.tagName=="INPUT"){
-    aggiornaBudget();
-  }
+  if(e.target.classList.contains("prezzo") || e.target.tagName=="INPUT") aggiornaBudget();
 });
 
 window.onload=caricaDati;
 </script>
+
 </body>
 </html>
