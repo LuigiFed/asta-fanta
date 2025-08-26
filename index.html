@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fantacalcio - Asta</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f9;
+    margin: 0;
+    padding: 15px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 26px;
+    background-color: rgb(47,151,242);
+    color: white;
+    padding: 15px 0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .header div { font-size: 16px; margin: 5px 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+  }
+  input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  input:focus {
+    outline: none;
+    border-color: #47a1f2;
+    background: #eaf4ff;
+  }
+
+  .category {
+    margin-bottom: 30px;
+    border-radius: 10px;
+
+  }
+  .portieri { border: 2px solid orange; }
+  .difensori { border: 2px solid green; }
+  .centrocampisti { border: 2px solid blue; }
+  .attaccanti { border: 2px solid red; }
+
+  .category h2 {
+    margin:0 0 10px 0;
+    padding:8px;
+    border-radius:8px 8px 0 0;
+    color:white;
+    text-align:center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .portieri h2 { background: orange; }
+  .difensori h2 { background: green; }
+  .centrocampisti h2 { background: blue; }
+  .attaccanti h2 { background: red; }
+
+  .tot-reparto {
+    text-align:center;
+    font-weight:bold;
+    background: #f1f1f1;
+    padding: 6px;
+    margin-top:5px;
+    border-radius:10px;
+    font-size:15px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  button {
+    padding:10px 20px;
+    font-size:16px;
+    background:#47a1f2;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-bottom:20px;
+  }
+  button:hover { background:#1f80d2; }
+
+  @media(max-width:600px){
+    .header{flex-direction:column; align-items:center;}
+    table{font-size:12px;}
+    th, td{padding:5px;}
+    input{font-size:12px;padding:4px;}
+  }
+</style>
+</head>
+<body>
+<h1>Asta Fantacalcio</h1>
+
+<div class="header">
+  <div><b>BUDGET INIZIALE:</b> <span id="budgetIniziale">1000</span></div>
+  <div><b>TOTALE SPESO:</b> <span id="totaleSpeso">0</span></div>
+  <div><b>CREDITI RIMASTI:</b> <span id="creditiRimasti">1000</span></div>
+</div>
+
+<button onclick="scaricaDati()">💾 Salva e Scarica CSV</button>
+
+<script>
+const budgetIniziale = 1000;
+const reparti = [
+  {nome:"PORTIERI", id:"portieri", n:3, colore:"orange"},
+  {nome:"DIFENSORI", id:"difensori", n:8, colore:"green"},
+  {nome:"CENTROCAMPISTI", id:"centrocampisti", n:8, colore:"blue"},
+  {nome:"ATTACCANTI", id:"attaccanti", n:6, colore:"red"}
+];
+
+// Genera tabelle
+function generaTabella(reparto){
+  document.write(`<div class="category ${reparto.id}" id="cat-${reparto.id}">`);
+  document.write(`<h2>${reparto.nome}</h2>`); // intestazione card esterna
+  document.write(`<table><thead><tr><th>#</th><th>Nome</th><th>Prezzo</th></tr></thead>`);
+  document.write(`<tbody id="${reparto.id}">`);
+  for(let i=1;i<=reparto.n;i++){
+    document.write(`<tr><td>${i}.</td>`);
+    document.write(`<td><input type='text' placeholder='Nome'></td>`);
+    document.write(`<td><input type='number' class='prezzo' value='' min='0'></td></tr>`);
+  }
+  document.write(`</tbody></table>`);
+  document.write(`<div class="tot-reparto" id="tot-${reparto.id}">Totale ${reparto.nome}: 0</div>`);
+  document.write(`</div>`);
+}
+reparti.forEach(generaTabella);
+
+// Funzione aggiorna budget e totali
+function aggiornaBudget(){
+  let totaleGenerale=0;
+  reparti.forEach(r=>{
+    let totale=0;
+    document.querySelectorAll(`#${r.id} .prezzo`).forEach(i=>{
+      let v=parseInt(i.value);
+      if(!isNaN(v)) totale+=v;
+    });
+    document.getElementById(`tot-${r.id}`).innerText = `Totale ${r.nome}: ${totale}`;
+    totaleGenerale+=totale;
+  });
+  document.getElementById("totaleSpeso").innerText=totaleGenerale;
+  document.getElementById("creditiRimasti").innerText=budgetIniziale-totaleGenerale;
+  salvaDati();
+}
+
+// Salvataggio su localStorage
+function salvaDati(){
+  const dati = {};
+  reparti.forEach(r=>{
+    dati[r.id]=[];
+    document.querySelectorAll(`#${r.id} tr`).forEach(tr=>{
+      const nome=tr.querySelector("td:nth-child(2) input").value;
+      const prezzo=tr.querySelector("td:nth-child(3) input").value;
+      dati[r.id].push({nome, prezzo});
+    });
+  });
+  localStorage.setItem("fantacalcio", JSON.stringify(dati));
+}
+
+// Recupero dati da localStorage
+function caricaDati(){
+  const dati = JSON.parse(localStorage.getItem("fantacalcio"));
+  if(!dati) return;
+  reparti.forEach(r=>{
+    const rows = document.querySelectorAll(`#${r.id} tr`);
+    rows.forEach((tr,i)=>{
+      if(dati[r.id][i]){
+        tr.querySelector("td:nth-child(2) input").value=dati[r.id][i].nome;
+        tr.querySelector("td:nth-child(3) input").value=dati[r.id][i].prezzo;
+      }
+    });
+  });
+  aggiornaBudget();
+}
+
+// Scarica dati come CSV
+function scaricaDati(){
+  let csv="Reparto,Numero,Nome,Prezzo\n";
+  reparti.forEach(r=>{
+    document.querySelectorAll(`#${r.id} tr`).forEach((tr,i)=>{
+      const nome=tr.querySelector("td:nth-child(2) input").value.replace(/,/g,'');
+      const prezzo=tr.querySelector("td:nth-child(3) input").value;
+      csv+=`${r.nome},${i+1},${nome},${prezzo}\n`;
+    });
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download="fantacalcio.csv";
+  a.click();
+}
+
+document.addEventListener("input", e=>{
+  if(e.target.classList.contains("prezzo") || e.target.tagName=="INPUT"){
+    aggiornaBudget();
+  }
+});
+
+window.onload=caricaDati;
+</script>
+</body>
+</html>
