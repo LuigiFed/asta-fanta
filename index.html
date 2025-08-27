@@ -450,6 +450,31 @@
         display: flex;
         gap: 5px;
       }
+      .wishlist-item.priority-low {
+  background-color: #05fd0d8d; /* verde */
+  color: white;
+}
+
+.wishlist-item.priority-medium {
+  background-color: rgba(255, 217, 0, 0.623); /* oro */
+  color: black;
+}
+
+.wishlist-item.priority-high {
+  background-color: #fc13038f; /* rosso */
+  color: white;
+}
+
+.wishlist-item {
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
       .acquire-btn {
         background: #28a745;
@@ -580,6 +605,31 @@
         border-color: #f5c6cb;
         color: #721c24;
       }
+
+      .wishlist-legend {
+  display: flex;
+  gap: 15px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.wishlist-legend .legend-item {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: default;
+}
+
+.wishlist-legend .legend-item.high { background-color: #e74c3c; }   /* rossa */
+.wishlist-legend .legend-item.medium { background-color: #f1c40f; } /* oro */
+.wishlist-legend .legend-item.low { background-color: #2ecc71; }    /* verde */
+.wishlist-legend .legend-item.none { background-color: #95a5a6; }   /* grigio */
+
     </style>
   </head>
   <body>
@@ -845,64 +895,75 @@
         updateWishlistDisplay(repartoId);
         salvaDati();
       }
+      
+function renderWishlistLegend() {
+  const wishlistWrapper = document.getElementById('wishlist-wrapper'); // il contenitore generale della wishlist
+  if (!document.querySelector('.wishlist-legend')) { // evita duplicati
+    const legenda = document.createElement('div');
+    legenda.className = 'wishlist-legend';
+    legenda.innerHTML = `
+      <span class="legend-item high">Alta (rossa)</span>
+      <span class="legend-item medium">Media (oro)</span>
+      <span class="legend-item low">Bassa (verde)</span>
+      <span class="legend-item none">Nessuna</span>
+    `;
+    wishlistWrapper.prepend(legenda); // va in cima al wrapper
+  }
+}
 
-      function updateWishlistDisplay(repartoId) {
-        const container = document.getElementById(`wishlist-${repartoId}`);
-        const players = wishlist[repartoId];
+function updateWishlistDisplay(repartoId) {
+  const container = document.getElementById(`wishlist-${repartoId}`);
+  let players = wishlist[repartoId];
 
-         players.sort((a, b) => {
-    const nameA = a.nome.toLowerCase();
-    const nameB = b.nome.toLowerCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-        if (players.length === 0) {
-          container.innerHTML =
-            '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
-        } else {
-          container.innerHTML = players
-            .map((player) => {
-              const budgetReparto =
-                parseInt(
-                  document.getElementById(`budget-${repartoId}`).value
-                ) || 0;
-              const isOverBudget = player.maxPrice > budgetReparto;
-              return `
-          <div class="wishlist-item ${isOverBudget ? "over-budget" : ""}">
-            <input type="text" class="wishlist-player-name" value="${
-              player.nome
-            }" placeholder="Nome giocatore"
-              onchange="updateWishlistPlayer('${repartoId}', ${
-                player.id
-              }, 'nome', this.value)">
-            <input type="number" class="wishlist-max-price" value="${
-              player.maxPrice
-            }" min="0" placeholder="Max €"
-              onchange="updateWishlistPlayer('${repartoId}', ${
-                player.id
-              }, 'maxPrice', this.value)">
-            <div class="wishlist-actions">
-              <button class="acquire-btn" onclick="acquirePlayer('${repartoId}', ${
-                player.id
-              })"><i class="fas fa-plus-circle"></i></button>
-              <button class="remove-wishlist-btn" onclick="removeWishlistPlayer('${repartoId}', ${
-                player.id
-              })"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>`;
-            })
-            .join("");
-        }
-        const count = players.length;
-        const totalBudget = players.reduce(
-          (sum, p) => sum + (parseInt(p.maxPrice) || 0),
-          0
-        );
-        document.getElementById(`count-${repartoId}`).textContent = count;
-        document.getElementById(`budget-wish-${repartoId}`).textContent =
-          totalBudget;
-      }
+  if (!players || players.length === 0) {
+    container.innerHTML = '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
+    return;
+  }
+
+  container.innerHTML = players
+    .map(player => {
+      return `
+      <div class="wishlist-item priority-${player.priority}" 
+           onclick="togglePriority('${repartoId}', ${player.id})">
+        <input type="text" class="wishlist-player-name" value="${player.nome}" placeholder="Nome giocatore"
+          onchange="updateWishlistPlayer('${repartoId}', ${player.id}, 'nome', this.value)">
+        <input type="number" class="wishlist-max-price" value="${player.maxPrice}" min="0" placeholder="Max €"
+          onchange="updateWishlistPlayer('${repartoId}', ${player.id}, 'maxPrice', this.value)">
+        <div class="wishlist-actions">
+          <button class="acquire-btn" onclick="acquirePlayer('${repartoId}', ${player.id})"><i class="fas fa-plus-circle"></i></button>
+          <button class="remove-wishlist-btn" onclick="removeWishlistPlayer('${repartoId}', ${player.id})"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>`;
+    })
+    .join("");
+
+
+
+}
+
+// funzione per cambiare priorità al click
+function togglePriority(repartoId, playerId) {
+  const player = wishlist[repartoId].find(p => p.id === playerId);
+  if (!player) return;
+
+switch (player.priority) {
+  case 'high': 
+    player.priority = 'medium'; 
+    break;
+  case 'medium': 
+    player.priority = 'low'; 
+    break;
+  case 'low': 
+    player.priority = ''; 
+    break;
+  default: 
+    player.priority = 'high'; 
+    break;
+}
+
+  updateWishlistDisplay(repartoId);
+  salvaDati();
+}
 
       function updateWishlistPlayer(repartoId, playerId, field, value) {
         const player = wishlist[repartoId].find((p) => p.id === playerId);
