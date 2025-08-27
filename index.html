@@ -46,7 +46,7 @@
         text-align: center;
         font-size: 28px;
         font-weight: 700;
-        color: #2e8b57; 
+        color: #2e8b57;
         margin-bottom: 20px;
         padding: 10px 20px;
         border-radius: 12px;
@@ -85,12 +85,13 @@
       }
       .budget-counter {
         text-align: center;
-        color: white;
         font-weight: bold;
         margin-bottom: 15px;
         font-size: 16px;
         padding: 12px;
-        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid #e9ecef;
+        box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.444);
         border-radius: 12px;
       }
       .budget-panel {
@@ -323,120 +324,436 @@
         color: #333;
         padding: 8px 12px;
       }
+
+      /* NUOVI STILI PER LISTA DESIDERI */
+      .tabs-container {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .tabs {
+        display: flex;
+        background: #f8f9fa;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 15px 10px;
+        border: none;
+        background: transparent;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+      }
+
+      .tab-btn.active {
+        background: white;
+        color: #2e8b57;
+        border-bottom-color: #2e8b57;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 20px;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .wishlist-section {
+        margin-bottom: 25px;
+      }
+
+      .wishlist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .wishlist-title {
+        font-weight: bold;
+        width: 200px;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        color: white;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .add-wishlist-btn {
+        background: #2e8b57;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+      }
+
+      .add-wishlist-btn:hover {
+        background: #1f5d3f;
+        transform: translateY(-1px);
+      }
+
+      .wishlist-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #e9ecef;
+        transition: all 0.2s ease;
+      }
+
+      .wishlist-item:hover {
+        border-color: #2e8b57;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(46, 139, 87, 0.1);
+      }
+
+      .wishlist-player-name {
+        flex: 1;
+        width: 100px;
+        padding: 8px 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .wishlist-max-price {
+        width: 80px;
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .wishlist-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .acquire-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s ease;
+      }
+
+      .acquire-btn:hover {
+        background: #218838;
+        transform: scale(1.05);
+      }
+
+      .remove-wishlist-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s ease;
+      }
+
+      .remove-wishlist-btn:hover {
+        background: #c82333;
+        transform: scale(1.05);
+      }
+
+      .wishlist-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background: #e9f7ef;
+        border-radius: 8px;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .wishlist-budget-total {
+        font-weight: bold;
+        color: #2e8b57;
+      }
+
+      .empty-wishlist {
+        text-align: center;
+        padding: 30px;
+        color: #666;
+        font-style: italic;
+      }
+
+      /* Style per il modal di acquisizione */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .modal h3 {
+        margin-top: 0;
+        color: #2e8b57;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .modal-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+      }
+
+      .modal-btn.confirm {
+        background: #28a745;
+        color: white;
+      }
+
+      .modal-btn.cancel {
+        background: #6c757d;
+        color: white;
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .price-suggestion {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+      }
+
+      .over-budget {
+        background-color: #fff3cd !important;
+        border-color: #ffeaa7 !important;
+      }
+
+      .over-budget .wishlist-max-price {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+      }
     </style>
   </head>
   <body>
     <div class="title-div">
       <h1 class="title">Fantacalcio Budget Tool</h1>
     </div>
-    <div class="header">
-      <div class="stat-box">
-        <i class="fa-solid fa-wallet" style="color: black"></i>
-        <div>Totale Budget</div>
-        <select id="budgetTotaleSelect">
-          <option value="500">500</option>
-          <option value="750">750</option>
-          <option value="1000" selected>1000</option>
-        </select>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('budget')">
+          <i class="fas fa-calculator"></i> Budget & Rosa
+        </button>
+        <button class="tab-btn" onclick="switchTab('wishlist')">
+          <i class="fas fa-star"></i> Lista Desideri
+        </button>
       </div>
-      <div class="stat-box">
-        <i class="fa-solid fa-coins" style="color: goldenrod"></i>
-        <div>Rimanente</div>
-        <div id="budgetRimanente" class="stat-value">1000</div>
+
+      <!-- Budget Tab Content -->
+      <div id="budget-tab" class="tab-content active">
+        <div class="header">
+          <div class="stat-box">
+            <i class="fa-solid fa-wallet" style="color: black"></i>
+            <div>Totale Budget</div>
+            <select id="budgetTotaleSelect">
+              <option value="500">500</option>
+              <option value="750">750</option>
+              <option value="1000" selected>1000</option>
+            </select>
+          </div>
+          <div class="stat-box">
+            <i class="fa-solid fa-coins" style="color: goldenrod"></i>
+            <div>Rimanente</div>
+            <div id="budgetRimanente" class="stat-value">1000</div>
+          </div>
+        </div>
+
+        <div class="budget-counter" id="budgetRipartito">
+          Ripartizione: 1000 / 1000
+        </div>
+
+        <div class="budget-panel">
+          <button
+            id="editRepartiBtn"
+            class="edit-btn"
+            style="
+              position: absolute;
+              top: 6px;
+              right: 6px;
+              font-size: 18px;
+              z-index: 1000;
+            "
+          >
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+
+          <div class="budget-input">
+            <i class="fas fa-hand-paper" style="color: orange"></i>
+            <div style="font-size: 12px; color: #666; margin-top: 3px">
+              Portieri
+            </div>
+            <input
+              type="number"
+              id="budget-portieri"
+              value="100"
+              min="0"
+              disabled
+            />
+          </div>
+          <div class="budget-input">
+            <i class="fas fa-shield-alt" style="color: rgb(13, 255, 0)"></i>
+            <div style="font-size: 12px; color: #666; margin-top: 4px">
+              Difensori
+            </div>
+            <input
+              type="number"
+              id="budget-difensori"
+              value="300"
+              min="0"
+              disabled
+            />
+          </div>
+          <div class="budget-input">
+            <i class="fas fa-futbol" style="color: #007bff"></i>
+            <div style="font-size: 12px; color: #666; margin-top: 4px">
+              Centrocampisti
+            </div>
+            <input
+              type="number"
+              id="budget-centrocampisti"
+              value="400"
+              min="0"
+              disabled
+            />
+          </div>
+          <div class="budget-input">
+            <i class="fas fa-bolt" style="color: red"></i>
+            <div style="font-size: 12px; color: #666; margin-top: 4px">
+              Attaccanti
+            </div>
+            <input
+              type="number"
+              id="budget-attaccanti"
+              value="200"
+              min="0"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px">
+          <button
+            id="saveCsvBtn"
+            style="
+              padding: 10px 16px;
+              background: #2e8b57;
+              color: white;
+              font-weight: bold;
+              border: none;
+              border-radius: 12px;
+              cursor: pointer;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+              transition: 0.2s;
+            "
+          >
+            Salva Lista
+          </button>
+        </div>
+
+        <!-- Rosa Giocatori -->
+        <div id="rosa-container"></div>
+      </div>
+
+      <!-- Wishlist Tab Content -->
+      <div id="wishlist-tab" class="tab-content">
+        <div id="wishlist-container"></div>
       </div>
     </div>
 
-
-
-    <div class="budget-counter" id="budgetRipartito">
-      Ripartizione: 1000 / 1000
-    </div>
-
-    <div class="budget-panel">
-      <button
-        id="editRepartiBtn"
-        class="edit-btn"
-        style="
-          position: absolute;
-          top: 6px;
-          right: 6px;
-          font-size: 18px;
-          z-index: 1000;
-        "
-      >
-        <i class="fas fa-pencil-alt"></i>
-      </button>
-
-      <div class="budget-input">
-        <i class="fas fa-hand-paper" style="color: orange"></i>
-        <div style="font-size: 12px; color: #666; margin-top: 3px">
-          Portieri
+    <!-- Modal per acquisizione giocatore -->
+    <div id="acquireModal" class="modal">
+      <div class="modal-content">
+        <h3>Acquisisci Giocatore</h3>
+        <p id="modalPlayerName"></p>
+        <div style="margin: 15px 0">
+          <label>Prezzo reale pagato:</label>
+          <input
+            type="number"
+            id="modalRealPrice"
+            min="0"
+            style="
+              width: 100px;
+              padding: 8px;
+              margin-left: 10px;
+              border: 1px solid #dee2e6;
+              border-radius: 6px;
+              text-align: center;
+            "
+          />
+          <div class="price-suggestion" id="priceSuggestion"></div>
         </div>
-        <input
-          type="number"
-          id="budget-portieri"
-          value="100"
-          min="0"
-          disabled
-        />
-      </div>
-      <div class="budget-input">
-        <i class="fas fa-shield-alt" style="color: rgb(13, 255, 0)"></i>
-        <div style="font-size: 12px; color: #666; margin-top: 4px">
-          Difensori
+        <div class="modal-buttons">
+          <button class="modal-btn confirm" onclick="confirmAcquisition()">
+            Conferma
+          </button>
+          <button class="modal-btn cancel" onclick="closeModal()">
+            Annulla
+          </button>
         </div>
-        <input
-          type="number"
-          id="budget-difensori"
-          value="300"
-          min="0"
-          disabled
-        />
-      </div>
-      <div class="budget-input">
-        <i class="fas fa-futbol" style="color: #007bff"></i>
-        <div style="font-size: 12px; color: #666; margin-top: 4px">
-          Centrocampisti
-        </div>
-        <input
-          type="number"
-          id="budget-centrocampisti"
-          value="400"
-          min="0"
-          disabled
-        />
-      </div>
-      <div class="budget-input">
-        <i class="fas fa-bolt" style="color: red"></i>
-        <div style="font-size: 12px; color: #666; margin-top: 4px">
-          Attaccanti
-        </div>
-        <input
-          type="number"
-          id="budget-attaccanti"
-          value="200"
-          min="0"
-          disabled
-        />
       </div>
     </div>
-    <div style="text-align:center; margin-bottom:20px;">
-  <button id="saveCsvBtn" style="
-      padding:10px 16px;
-      background:#2e8b57;
-      color:white;
-      font-weight:bold;
-      border:none;
-      border-radius:12px;
-      cursor:pointer;
-      box-shadow:0 4px 12px rgba(0,0,0,0.2);
-      transition:0.2s;
-    ">
-    Salva Lista
-  </button>
-</div>
+
     <script>
       let budgetIniziale = 1000;
+      let currentAcquireData = null;
 
       const reparti = [
         {
@@ -469,52 +786,202 @@
         },
       ];
 
+      // TABS
+      function switchTab(tabName) {
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.remove("active"));
+        document
+          .querySelector(`[onclick="switchTab('${tabName}')"]`)
+          .classList.add("active");
+        document.getElementById(`${tabName}-tab`).classList.add("active");
+      }
+
+      // WISHLIST
+      let wishlist = {
+        portieri: [],
+        difensori: [],
+        centrocampisti: [],
+        attaccanti: [],
+      };
+
+      function generateWishlist() {
+        const container = document.getElementById("wishlist-container");
+        container.innerHTML = "";
+        reparti.forEach((reparto) => {
+          const section = document.createElement("div");
+          section.className = "wishlist-section";
+          section.innerHTML = `
+        <div class="wishlist-header">
+          <div class="wishlist-title title-${reparto.id}"><i class="${reparto.icona}"></i> ${reparto.nome}</div>
+          <button class="add-wishlist-btn" onclick="addWishlistPlayer('${reparto.id}')">
+            <i class="fas fa-plus"></i> Aggiungi
+          </button>
+        </div>
+        <div id="wishlist-${reparto.id}"></div>
+        <div class="wishlist-stats">
+          <span>Giocatori desiderati: <span id="count-${reparto.id}">0</span></span>
+          <span class="wishlist-budget-total">Budget max: €<span id="budget-wish-${reparto.id}">0</span></span>
+        </div>`;
+          container.appendChild(section);
+          updateWishlistDisplay(reparto.id);
+        });
+      }
+
+      function addWishlistPlayer(repartoId) {
+        wishlist[repartoId].push({ id: Date.now(), nome: "", maxPrice: 0 });
+        updateWishlistDisplay(repartoId);
+        salvaDati();
+      }
+
+      function removeWishlistPlayer(repartoId, playerId) {
+        wishlist[repartoId] = wishlist[repartoId].filter(
+          (p) => p.id !== playerId
+        );
+        updateWishlistDisplay(repartoId);
+        salvaDati();
+      }
+
+      function updateWishlistDisplay(repartoId) {
+        const container = document.getElementById(`wishlist-${repartoId}`);
+        const players = wishlist[repartoId];
+        if (players.length === 0) {
+          container.innerHTML =
+            '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
+        } else {
+          container.innerHTML = players
+            .map((player) => {
+              const budgetReparto =
+                parseInt(
+                  document.getElementById(`budget-${repartoId}`).value
+                ) || 0;
+              const isOverBudget = player.maxPrice > budgetReparto;
+              return `
+          <div class="wishlist-item ${isOverBudget ? "over-budget" : ""}">
+            <input type="text" class="wishlist-player-name" value="${
+              player.nome
+            }" placeholder="Nome giocatore"
+              onchange="updateWishlistPlayer('${repartoId}', ${
+                player.id
+              }, 'nome', this.value)">
+            <input type="number" class="wishlist-max-price" value="${
+              player.maxPrice
+            }" min="0" placeholder="Max €"
+              onchange="updateWishlistPlayer('${repartoId}', ${
+                player.id
+              }, 'maxPrice', this.value)">
+            <div class="wishlist-actions">
+              <button class="acquire-btn" onclick="acquirePlayer('${repartoId}', ${
+                player.id
+              })"><i class="fas fa-plus-circle"></i></button>
+              <button class="remove-wishlist-btn" onclick="removeWishlistPlayer('${repartoId}', ${
+                player.id
+              })"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>`;
+            })
+            .join("");
+        }
+        const count = players.length;
+        const totalBudget = players.reduce(
+          (sum, p) => sum + (parseInt(p.maxPrice) || 0),
+          0
+        );
+        document.getElementById(`count-${repartoId}`).textContent = count;
+        document.getElementById(`budget-wish-${repartoId}`).textContent =
+          totalBudget;
+      }
+
+      function updateWishlistPlayer(repartoId, playerId, field, value) {
+        const player = wishlist[repartoId].find((p) => p.id === playerId);
+        if (player) {
+          player[field] = field === "maxPrice" ? parseInt(value) || 0 : value;
+          updateWishlistDisplay(repartoId);
+          salvaDati();
+        }
+      }
+
+      // ACQUISTO GIOCATORI
+      function acquirePlayer(repartoId, playerId) {
+        const player = wishlist[repartoId].find((p) => p.id === playerId);
+        if (!player || !player.nome) {
+          alert("Inserisci prima il nome del giocatore!");
+          return;
+        }
+        currentAcquireData = { repartoId, playerId, player };
+        document.getElementById(
+          "modalPlayerName"
+        ).textContent = `Vuoi acquistare ${player.nome}?`;
+        document.getElementById("modalRealPrice").value = player.maxPrice;
+        document.getElementById(
+          "priceSuggestion"
+        ).textContent = `Prezzo massimo previsto: €${player.maxPrice}`;
+        document.getElementById("acquireModal").style.display = "block";
+      }
+
+      function closeModal() {
+        document.getElementById("acquireModal").style.display = "none";
+        currentAcquireData = null;
+      }
+
+      function confirmAcquisition() {
+        if (!currentAcquireData) return;
+        const { repartoId, playerId, player } = currentAcquireData;
+        const realPrice =
+          parseInt(document.getElementById("modalRealPrice").value) || 0;
+        const rows = document.querySelectorAll(`#${repartoId} tr`);
+        let slotFound = false;
+        for (let row of rows) {
+          const nameInput = row.querySelector(".player-input");
+          const priceInput = row.querySelector(".price-input");
+          if (!nameInput.value) {
+            nameInput.value = player.nome;
+            priceInput.value = realPrice;
+            slotFound = true;
+            break;
+          }
+        }
+        if (slotFound) {
+          removeWishlistPlayer(repartoId, playerId);
+          aggiornaBudget();
+          closeModal();
+          switchTab("budget");
+          alert(`${player.nome} aggiunto alla rosa per €${realPrice}!`);
+        } else {
+          alert("Non ci sono slot liberi per questo ruolo!");
+        }
+      }
+
+      // GENERAZIONE TABELLE
       function generaTabelle() {
+        const container = document.getElementById("rosa-container");
+        container.innerHTML = "";
         reparti.forEach((r) => {
-          const container = document.createElement("div");
-          container.className = `category ${r.id}`;
-          container.style.overflow = "hidden"; // così border-radius funziona sull'h2
-          container.innerHTML = `
-  <h2 class="category-title title-${r.id}">
-    <i class="${r.icona}"></i> ${r.nome}
-  </h2>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nome Giocatore</th>
-          <th>Prezzo</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="${r.id}"></tbody>
-    </table>
-  </div>
-  <div class="tot-reparto verde" id="tot-${r.id}">
-    Totale ${r.nome}: 0 / ${r.budget}
-  </div>
-  <div class="budget-info" id="info-${r.id}">
-    Budget base: ${r.budget}
-  </div>
-`;
-
-          document.body.appendChild(container);
-
-          const tbody = container.querySelector("tbody");
-
+          const categoryDiv = document.createElement("div");
+          categoryDiv.className = `category ${r.id}`;
+          categoryDiv.style.overflow = "hidden";
+          categoryDiv.innerHTML = `
+        <h2 class="category-title title-${r.id}"><i class="${r.icona}"></i> ${r.nome}</h2>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>#</th><th>Nome Giocatore</th><th>Prezzo</th><th></th></tr></thead>
+            <tbody id="${r.id}"></tbody>
+          </table>
+        </div>
+        <div class="tot-reparto verde" id="tot-${r.id}">Totale ${r.nome}: 0 / ${r.budget}</div>
+        <div class="budget-info" id="info-${r.id}">Budget base: ${r.budget}</div>`;
+          container.appendChild(categoryDiv);
+          const tbody = categoryDiv.querySelector("tbody");
           for (let i = 1; i <= r.n; i++) {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-        <td>${i}</td>
-        <td><input type="text" class="player-input" placeholder="Nome giocatore"></td>
-        <td><input type="number" class="price-input" min="0" value="0" onchange="aggiornaBudget()"></td>
-        <td>
-          <button class="remove-player-btn" onclick="rimuoviGiocatore(this)">
-            <i class="fas fa-times-circle"></i>
-          </button>
-        </td>
-      `;
+          <td>${i}</td>
+          <td><input type="text" class="player-input" placeholder="Nome giocatore"></td>
+          <td><input type="number" class="price-input" min="0" value="0" onchange="aggiornaBudget()"></td>
+          <td><button class="remove-player-btn" onclick="rimuoviGiocatore(this)"><i class="fas fa-times-circle"></i></button></td>`;
             tbody.appendChild(tr);
           }
         });
@@ -533,6 +1000,7 @@
         aggiornaBudget();
       }
 
+      // CALCOLO BUDGET
       function aggiornaBudget() {
         let totaleSpeso = 0,
           rollover = 0;
@@ -540,68 +1008,55 @@
           const prezzi = document.querySelectorAll(`#${r.id} .price-input`);
           let speso = 0;
           prezzi.forEach((i) => (speso += parseInt(i.value) || 0));
-
-          // Prendi il budget attuale dall'input, così il budget base si aggiorna
           const inputBudget = document.getElementById(`budget-${r.id}`);
           let budgetEffettivo = parseInt(inputBudget.value) || 0;
-
-          // Aggiorna il budget base visibile
           const infoBox = document.getElementById(`info-${r.id}`);
-          infoBox.textContent = `Budget base: ${budgetEffettivo}`;
-
-          // Colori come prima
+          if (infoBox) infoBox.textContent = `Budget base: ${budgetEffettivo}`;
           let colore = "verde",
             mess = "";
           if (speso > budgetEffettivo) {
             colore = "rosso";
             mess = ` (Sforato di ${speso - budgetEffettivo})`;
-          } else if (speso >= budgetEffettivo * 0.9) {
-            colore = "giallo";
-          } else if (speso < budgetEffettivo) {
+          } else if (speso >= budgetEffettivo * 0.9) colore = "giallo";
+          else if (speso < budgetEffettivo) {
             colore = "blu";
             mess = ` (Residuo: ${r.budget + rollover})`;
           }
-
           const box = document.getElementById(`tot-${r.id}`);
-          box.className = `tot-reparto ${colore}`;
-          box.innerHTML = `
-  Totale ${r.nome}: ${speso} / ${budgetEffettivo}${mess}
-  <div style="font-size: 12px; color: #666; margin-top:4px;">
-    ${
-      rollover > 0
-        ? `(da reparto precedente: ${rollover} → totale effettivo: ${
-            r.budget + rollover
-          })`
-        : `(Residuo budget: ${budgetEffettivo - speso})`
-    }
-  </div>
-
-`;
-
-          box.className = `tot-reparto ${colore}`;
-
+          if (box) {
+            box.className = `tot-reparto ${colore}`;
+            box.innerHTML = `Totale ${
+              r.nome
+            }: ${speso} / ${budgetEffettivo}${mess}
+          <div style="font-size: 12px; color: #666; margin-top:4px;">
+            ${
+              rollover > 0
+                ? `(da reparto precedente: ${rollover} → totale effettivo: ${
+                    r.budget + rollover
+                  })`
+                : `(Residuo budget: ${budgetEffettivo - speso})`
+            }
+          </div>`;
+          }
           rollover = budgetEffettivo - speso;
           totaleSpeso += speso;
         });
-
         const rim = document.getElementById("budgetRimanente");
         rim.textContent = budgetIniziale - totaleSpeso;
         rim.style.color =
           budgetIniziale - totaleSpeso < 0 ? "#dc3545" : "#2e8b57";
-
         const totRipartito = reparti.reduce(
           (a, r) =>
-            a + parseInt(document.getElementById(`budget-${r.id}`).value || 0),
+            a +
+            (parseInt(document.getElementById(`budget-${r.id}`).value) || 0),
           0
         );
         const ripBox = document.getElementById("budgetRipartito");
         ripBox.textContent = `Ripartizione: ${totRipartito} / ${budgetIniziale}`;
         if (totRipartito > budgetIniziale) {
-          ripBox.style.background = "#f8d7da";
-          ripBox.style.color = "#721c24";
+          ripBox.style.color = "#dc3545"; // rosso
         } else {
-          ripBox.style.background = "rgba(255,255,255,0.1)";
-          ripBox.style.color = "white";
+          ripBox.style.color = "#2e8b57"; // verde
         }
       }
 
@@ -613,7 +1068,63 @@
         aggiornaBudget();
       }
 
+      // SALVATAGGIO
+      function salvaDati() {
+        const data = {
+          budgetTotale: document.getElementById("budgetTotaleSelect").value,
+          reparti: reparti.map((r) => {
+            const rows = Array.from(document.querySelectorAll(`#${r.id} tr`));
+            return {
+              id: r.id,
+              budget: document.getElementById(`budget-${r.id}`).value,
+              players: rows.map((row) => {
+                const nome = row.querySelector(".player-input")?.value || "";
+                const prezzo = row.querySelector(".price-input")?.value || "";
+                return { nome, prezzo };
+              }),
+            };
+          }),
+          wishlist: wishlist,
+        };
+        localStorage.setItem("fantacalcioData", JSON.stringify(data));
+        console.log("Dati salvati:", data);
+      }
+
+      function caricaDati() {
+        const saved = localStorage.getItem("fantacalcioData");
+        if (!saved) return;
+        const data = JSON.parse(saved);
+        if (data.budgetTotale) {
+          document.getElementById("budgetTotaleSelect").value =
+            data.budgetTotale;
+          budgetIniziale = parseInt(data.budgetTotale);
+        }
+        if (data.reparti) {
+          data.reparti.forEach((rep) => {
+            const inputBudget = document.getElementById(`budget-${rep.id}`);
+            if (inputBudget) inputBudget.value = rep.budget;
+            const rows = document.querySelectorAll(`#${rep.id} tr`);
+            rep.players.forEach((p, i) => {
+              if (rows[i]) {
+                const nomeInput = rows[i].querySelector(".player-input");
+                const prezzoInput = rows[i].querySelector(".price-input");
+                if (nomeInput) nomeInput.value = p.nome;
+                if (prezzoInput) prezzoInput.value = p.prezzo;
+              }
+            });
+          });
+        }
+        if (data.wishlist) {
+          wishlist = data.wishlist;
+          reparti.forEach((r) => updateWishlistDisplay(r.id));
+        }
+        aggiornaBudget();
+      }
+
+      // EVENTI
       document.addEventListener("DOMContentLoaded", () => {
+        generaTabelle();
+        generateWishlist();
         const editRepartiBtn = document.getElementById("editRepartiBtn");
         editRepartiBtn.addEventListener("click", () => {
           const inputs = reparti.map((r) =>
@@ -629,136 +1140,61 @@
             reparti.forEach((r) => aggiornaBudgetReparto(r.id));
           }
         });
-
-        const editTotaleBtn = document.getElementById("editBudgetBtn");
-        editTotaleBtn.addEventListener("click", () => {
-          const totInput = document.getElementById("budgetTotaleInput");
-          if (totInput.disabled) {
-            totInput.disabled = false;
-            totInput.focus();
-            editTotaleBtn.innerHTML =
-              '<i class="fas fa-check" style="color:#2e8b57"></i>';
-          } else {
-            totInput.disabled = true;
-            editTotaleBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-            aggiornaBudgetTotale();
-          }
+        const budgetSelect = document.getElementById("budgetTotaleSelect");
+        budgetSelect.addEventListener("change", () => {
+          budgetIniziale = parseInt(budgetSelect.value);
+          aggiornaBudget();
+          salvaDati();
         });
-      });
-
-      generaTabelle();
-      aggiornaBudget();
-
-      const budgetSelect = document.getElementById("budgetTotaleSelect");
-      budgetSelect.addEventListener("change", () => {
-        budgetIniziale = parseInt(budgetSelect.value);
+        document.body.addEventListener("input", salvaDati);
+        caricaDati();
         aggiornaBudget();
       });
-document.getElementById("saveCsvBtn").addEventListener("click", () => {
-  let csvContent = "Categoria,Giocatore,Prezzo,Budget Base,Budget Effettivo,Residuo\n";
-  const exportData = [];
 
-  reparti.forEach((r) => {
-    const budgetBase = parseInt(document.getElementById(`budget-${r.id}`).value || 0);
-    const rows = document.querySelectorAll(`#${r.id} tr`);
-    rows.forEach((row) => {
-      const nome = row.querySelector(".player-input").value;
-      const prezzo = parseInt(row.querySelector(".price-input").value || 0);
-      const budgetEffettivo = budgetBase; // o aggiungi rollover se vuoi
-      const residuo = budgetEffettivo - prezzo;
-
-      if (nome || prezzo) {
-        csvContent += `${r.nome},${nome},${prezzo},${budgetBase},${budgetEffettivo},${residuo}\n`;
-        exportData.push({
-          categoria: r.nome,
-          nome,
-          prezzo,
-          budgetBase,
-          budgetEffettivo,
-          residuo
+      // CSV EXPORT
+      document.getElementById("saveCsvBtn").addEventListener("click", () => {
+        let csvContent =
+          "Categoria,Giocatore,Prezzo,Budget Base,Budget Effettivo,Residuo\n";
+        reparti.forEach((r) => {
+          const budgetBase = parseInt(
+            document.getElementById(`budget-${r.id}`).value || 0
+          );
+          const rows = document.querySelectorAll(`#${r.id} tr`);
+          rows.forEach((row) => {
+            const nome = row.querySelector(".player-input").value;
+            const prezzo = parseInt(
+              row.querySelector(".price-input").value || 0
+            );
+            const residuo = budgetBase - prezzo;
+            if (nome || prezzo)
+              csvContent += `${r.nome},${nome},${prezzo},${budgetBase},${budgetBase},${residuo}\n`;
+          });
         });
-      }
-    });
-  });
+        csvContent +=
+          "\n--- LISTA DESIDERI ---\nCategoria,Giocatore Desiderato,Budget Massimo\n";
+        reparti.forEach((r) => {
+          wishlist[r.id].forEach((player) => {
+            if (player.nome)
+              csvContent += `${r.nome},${player.nome},${player.maxPrice}\n`;
+          });
+        });
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const link = document.createElement("a");
+        link.setAttribute("href", URL.createObjectURL(blob));
+        link.setAttribute("download", "fantacalcio_budget_completo.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert("Export completato! File scaricato con rosa e lista desideri.");
+      });
 
-
-  localStorage.setItem("fantacalcio_budget", JSON.stringify(exportData));
-
-  // Download CSV
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  link.setAttribute("href", URL.createObjectURL(blob));
-  link.setAttribute("download", "fantacalcio_budget.csv");
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  alert("Salvataggio completato! Dati salvati anche in localStorage.");
-});
-// --- SALVATAGGIO ---
-function salvaDati() {
-  const data = {
-    budgetTotale: document.getElementById("budgetTotaleSelect").value,
-    reparti: reparti.map(r => {
-      const rows = Array.from(document.querySelectorAll(`#${r.id} tr`));
-      return {
-        id: r.id,
-        budget: document.getElementById(`budget-${r.id}`).value,
-        players: rows.map(row => {
-          const nome = row.querySelector(".player-input")?.value || "";
-          const prezzo = row.querySelector(".price-input")?.value || "";
-          return { nome, prezzo };
-        })
+      // Chiudi modal cliccando fuori
+      window.onclick = (e) => {
+        const modal = document.getElementById("acquireModal");
+        if (e.target === modal) closeModal();
       };
-    })
-  };
-
-  localStorage.setItem("fantacalcio_budget", JSON.stringify(data));
-}
-
-// --- RIPRISTINO ---
-function caricaDati() {
-  const saved = localStorage.getItem("fantacalcio_budget");
-  if (!saved) return;
-
-  const data = JSON.parse(saved);
-
-  // Budget totale
-  if (data.budgetTotale) {
-    document.getElementById("budgetTotaleSelect").value = data.budgetTotale;
-  }
-
-  // Reparti
-  data.reparti.forEach(rep => {
-    const inputBudget = document.getElementById(`budget-${rep.id}`);
-    if (inputBudget) inputBudget.value = rep.budget;
-
-    const rows = document.querySelectorAll(`#${rep.id} tr`);
-    rep.players.forEach((p, i) => {
-      if (rows[i]) {
-        const nomeInput = rows[i].querySelector(".player-input");
-        const prezzoInput = rows[i].querySelector(".price-input");
-        if (nomeInput) nomeInput.value = p.nome;
-        if (prezzoInput) prezzoInput.value = p.prezzo;
-      }
-    });
-  });
-
-  aggiornaBudget();
-}
-
-// --- EVENTI ---
-document.addEventListener("DOMContentLoaded", () => {
-  caricaDati();
-
-  // Salvataggio automatico ad ogni modifica
-  document.body.addEventListener("input", salvaDati);
-  document.getElementById("budgetTotaleSelect").addEventListener("change", salvaDati);
-});
-
-
-
     </script>
   </body>
 </html>
