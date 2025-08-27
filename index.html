@@ -346,6 +346,8 @@
       </div>
     </div>
 
+
+
     <div class="budget-counter" id="budgetRipartito">
       Ripartizione: 1000 / 1000
     </div>
@@ -418,7 +420,21 @@
         />
       </div>
     </div>
-
+    <div style="text-align:center; margin-bottom:20px;">
+  <button id="saveCsvBtn" style="
+      padding:10px 16px;
+      background:#2e8b57;
+      color:white;
+      font-weight:bold;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      transition:0.2s;
+    ">
+    Salva Lista
+  </button>
+</div>
     <script>
       let budgetIniziale = 1000;
 
@@ -638,6 +654,111 @@
         budgetIniziale = parseInt(budgetSelect.value);
         aggiornaBudget();
       });
+document.getElementById("saveCsvBtn").addEventListener("click", () => {
+  let csvContent = "Categoria,Giocatore,Prezzo,Budget Base,Budget Effettivo,Residuo\n";
+  const exportData = [];
+
+  reparti.forEach((r) => {
+    const budgetBase = parseInt(document.getElementById(`budget-${r.id}`).value || 0);
+    const rows = document.querySelectorAll(`#${r.id} tr`);
+    rows.forEach((row) => {
+      const nome = row.querySelector(".player-input").value;
+      const prezzo = parseInt(row.querySelector(".price-input").value || 0);
+      const budgetEffettivo = budgetBase; // o aggiungi rollover se vuoi
+      const residuo = budgetEffettivo - prezzo;
+
+      if (nome || prezzo) {
+        csvContent += `${r.nome},${nome},${prezzo},${budgetBase},${budgetEffettivo},${residuo}\n`;
+        exportData.push({
+          categoria: r.nome,
+          nome,
+          prezzo,
+          budgetBase,
+          budgetEffettivo,
+          residuo
+        });
+      }
+    });
+  });
+
+
+  localStorage.setItem("fantacalcio_budget", JSON.stringify(exportData));
+
+  // Download CSV
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.setAttribute("href", URL.createObjectURL(blob));
+  link.setAttribute("download", "fantacalcio_budget.csv");
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  alert("Salvataggio completato! Dati salvati anche in localStorage.");
+});
+// --- SALVATAGGIO ---
+function salvaDati() {
+  const data = {
+    budgetTotale: document.getElementById("budgetTotaleSelect").value,
+    reparti: reparti.map(r => {
+      const rows = Array.from(document.querySelectorAll(`#${r.id} tr`));
+      return {
+        id: r.id,
+        budget: document.getElementById(`budget-${r.id}`).value,
+        players: rows.map(row => {
+          const nome = row.querySelector(".player-input")?.value || "";
+          const prezzo = row.querySelector(".price-input")?.value || "";
+          return { nome, prezzo };
+        })
+      };
+    })
+  };
+
+  localStorage.setItem("fantacalcio_budget", JSON.stringify(data));
+}
+
+// --- RIPRISTINO ---
+function caricaDati() {
+  const saved = localStorage.getItem("fantacalcio_budget");
+  if (!saved) return;
+
+  const data = JSON.parse(saved);
+
+  // Budget totale
+  if (data.budgetTotale) {
+    document.getElementById("budgetTotaleSelect").value = data.budgetTotale;
+  }
+
+  // Reparti
+  data.reparti.forEach(rep => {
+    const inputBudget = document.getElementById(`budget-${rep.id}`);
+    if (inputBudget) inputBudget.value = rep.budget;
+
+    const rows = document.querySelectorAll(`#${rep.id} tr`);
+    rep.players.forEach((p, i) => {
+      if (rows[i]) {
+        const nomeInput = rows[i].querySelector(".player-input");
+        const prezzoInput = rows[i].querySelector(".price-input");
+        if (nomeInput) nomeInput.value = p.nome;
+        if (prezzoInput) prezzoInput.value = p.prezzo;
+      }
+    });
+  });
+
+  aggiornaBudget();
+}
+
+// --- EVENTI ---
+document.addEventListener("DOMContentLoaded", () => {
+  caricaDati();
+
+  // Salvataggio automatico ad ogni modifica
+  document.body.addEventListener("input", salvaDati);
+  document.getElementById("budgetTotaleSelect").addEventListener("change", salvaDati);
+});
+
+
+
     </script>
   </body>
 </html>
