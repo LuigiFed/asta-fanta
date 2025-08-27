@@ -1,395 +1,558 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Fantacalcio - Asta 2.0</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Fantacalcio Budget Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0b3d0b, #136a13, #1f8a1f, #38c138, #a3f7a3);
 
-<style>
-/* Stili Generali e Layout */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-background: linear-gradient(90deg, #2f97f2, #6ac1ff);
-
-margin: 0;
-padding: 15px;
+        color: #333;
+        margin: 0;
+        padding: 15px;
+        min-height: 100vh;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+      .header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .stat-box {
+        text-align: center;
+        position: relative;
+      }
+      .stat-box i {
+        font-size: 28px;
+        color: #2e8b57;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .stat-box div:not(.stat-value) {
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #666;
+      }
+      .stat-value {
+        font-weight: bold;
+        font-size: 22px;
+        color: #2e8b57;
+      }
+      .budget-counter {
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 16px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+      }
+      .budget-panel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        position: relative;
+      }
+      .budget-input {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 12px;
+        background: #f8f9fa;
+        position: relative;
+      }
+      .budget-input i {
+        font-size: 24px;
+        color: #2e8b57;
+      }
+      .budget-input input {
+        width: 80px;
+        padding: 10px 5px;
+        text-align: center;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        background: white;
+      }
+      .budget-input input:focus {
+        border-color: #2e8b57;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+      }
+     .category {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden; 
+  padding: 0px; 
 }
 
-h1 {
-    text-align: center;
-    font-size: 2.2em;
-    color: #1e3a8a;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.category-title {
+  padding: 12px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  color: white;
+  margin: 0;
 }
 
-.header {
-  position: sticky;
- top: 0;
- display: flex;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 25px;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+/* Colori diversi per ogni categoria */
+.title-portieri {
+  background: orange;
+}
+.title-difensori {
+  background: rgb(13, 255, 0);
+}
+.title-centrocampisti {
+  background: blue;
+}
+.title-attaccanti {
+  background: red;
 }
 
-.header-row {
-    display: flex;
-    justify-content: space-around;
-    gap: 15px;
-    flex-wrap: wrap;
-}
+      .table-container {
+        overflow-x: auto;
+        margin-bottom: 15px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 100%;
+      }
+      th,
+      td {
+        padding: 12px 8px;
+        border-bottom: 1px solid #e9ecef;
+        text-align: left;
+      }
+      th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+        font-size: 14px;
+      }
+      td:first-child {
+        width: 40px;
+        text-align: center;
+        font-weight: bold;
+        color: #6c757d;
+      }
+      .player-input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        font-size: 16px;
+        background: white;
+      }
+      .player-input:focus {
+        border-color: #2e8b57;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.1);
+      }
+      .price-input {
+        width: 80px;
+        padding: 10px 8px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        background: white;
+      }
+      .price-input:focus {
+        border-color: #2e8b57;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.1);
+      }
+      .remove-player-btn {
+        background: transparent;
+        border: none;
+        color: #dc3545;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 6px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .remove-player-btn:active {
+        background: rgba(220, 53, 69, 0.1);
+      }
+      .tot-reparto {
+        font-weight: bold;
+        margin-top: 12px;
+        padding: 12px 16px;
+        display: block;
+        text-align: center;
+        font-size: 16px;
+      }
+      .budget-info {
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 8px 12px;
+        background: #f8f9fa;
+        text-align: center;
+      }
+      .verde {
+        background: #d4edda;
+        color: #155724;
+      }
+      .giallo {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .rosso {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .blu {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      /* discreti edit buttons */
+      .edit-btn {
+        border: none;
+        background: none;
+        color: #09bd57;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+      }
+      .edit-btn:active {
+        opacity: 0.6;
+      }
 
-.header-item {
-    background: #eef2ff;
-    padding: 15px 20px;
-    border-radius: 25px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.1em;
-    flex-grow: 1;
-    min-width: 200px;
-    position: relative;
-    overflow: hidden;
-}
+   
+    </style>
+  </head>
+  <body>
+    <div class="header">
+  <div class="stat-box">
+    <i class="fa-solid fa-wallet" style="color: black;"></i>
+    <div>Totale Budget</div>
+    <select id="budgetTotaleSelect" style="width:100px; padding:8px; border-radius:8px; border:1px solid #ccc; text-align:center;">
+      <option value="500">500</option>
+      <option value="750">750</option>
+      <option value="1000" selected>1000</option>
+    </select>
+  </div>
+  <div class="stat-box">
+    <i class="fa-solid fa-coins" style="color: goldenrod;"></i>
+    <div>Rimanente</div>
+    <div id="budgetRimanente" class="stat-value">1000</div>
+  </div>
+</div>
 
-.header-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #1e3a8a, #3b82f6);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
 
-.header-item:hover::before {
-    opacity: 0.05;
-}
-
-.header-item span {
-    font-weight: 700;
-    color: #1e3a8a;
-    transition: transform 0.3s ease;
-    display: inline-block;
-}
-
-.header-item.animate span {
-    animation: pulse 0.4s ease forwards;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-/* Sezioni e Tabelle */
-.category {
-    margin-bottom: 25px;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    background: white;
-}
-
-.category h2 {
-    font-size: 1.5em;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.portieri h2 { background: #f59e0b; }
-.difensori h2 { background: #16a34a; }
-.centrocampisti h2 { background: #3b82f6; }
-.attaccanti h2 { background: #ef4444; }
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-    font-size: 0.9em;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-th {
-    background: #fafafa;
-    font-weight: 600;
-    color: #4b5563;
-}
-
-tr:last-child td { border-bottom: none; }
-
-.player-input, .price-input {
-    border: none;
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 0.9em;
-    border-radius: 8px;
-    background: #f8fafc;
-    transition: all 0.2s;
-    box-sizing: border-box;
-}
-
-.player-input:focus, .price-input:focus {
-    outline: none;
-    background: #eff6ff;
-    box-shadow: 0 0 0 2px #3b82f6;
-}
-
-.remove-player-btn {
-    background: none;
-    border: none;
-    color: #ef4444;
-    cursor: pointer;
-    font-size: 1.1em;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.remove-player-btn:hover {
-    opacity: 1;
-}
-
-.tot-reparto {
-    text-align: center;
-    font-weight: 700;
-    background: #f8fafc;
-    padding: 12px;
-    font-size: 1em;
-    border-top: 1px solid #e5e7eb;
-    transition: background 0.3s;
-}
-
-/* Pulsanti e Footer */
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.action-buttons button, .footer button {
-    padding: 12px 25px;
-    font-size: 1em;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-    font-weight: 600;
-}
-
-.save-btn { background: #1e3a8a; }
-.reset-btn { background: #ef4444; }
-.save-btn:hover { background: #172c67; transform: translateY(-2px); }
-.reset-btn:hover { background: #d73a3a; transform: translateY(-2px); }
-
-.footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* Media Queries */
-@media(max-width: 768px) {
-    body { padding: 10px; }
-    h1 { font-size: 1.8em; }
-    .header-item { min-width: 150px; }
-    .action-buttons { flex-direction: column; align-items: center; }
-}
-
-@media(max-width: 480px) {
-    .header-row { flex-direction: column; }
-    th, td { padding: 8px; font-size: 0.8em; }
-}
-</style>
-</head>
-<body>
-
-<h1>Asta Fantacalcio</h1>
-
-<div class="header">
-    <div class="header-row">
-        <div class="header-item">BUDGET INIZIALE: <span id="budgetIniziale">1000</span></div>
-        <div class="header-item animate">TOTALE SPESO: <span id="totaleSpeso">0</span></div>
-        <div class="header-item animate">CREDITI RIMASTI: <span id="creditiRimasti">1000</span></div>
+    <div class="budget-counter" id="budgetRipartito">
+      Ripartizione: 1000 / 1000
     </div>
-</div>
 
-<div class="action-buttons">
-    <button class="save-btn" onclick="scaricaDati()"><i class="fas fa-save"></i> Salva e Scarica CSV</button>
-    <button class="reset-btn" onclick="resetDati()"><i class="fas fa-trash-alt"></i> Reset</button>
-</div>
+    <div class="budget-panel">
+      <button
+        id="editRepartiBtn"
+        class="edit-btn"
+        style="position: absolute; top: 6px; right: 6px; font-size: 18px; z-index: 1000;"
+      >
+        <i class="fas fa-pencil-alt"></i>
+      </button>
 
-<script>
-const budgetIniziale = 1000;
-const reparti = [
-    {nome: "PORTIERI", id: "portieri", n: 3, icona: "fas fa-hand-paper"},
-    {nome: "DIFENSORI", id: "difensori", n: 8, icona: "fas fa-shield-alt"},
-    {nome: "CENTROCAMPISTI", id: "centrocampisti", n: 8, icona: "fas fa-futbol"},
-    {nome: "ATTACCANTI", id: "attaccanti", n: 6, icona: "fas fa-bolt"}
-];
+      <div class="budget-input">
+        <i class="fas fa-hand-paper" style="color: orange;"></i>
+        <div style="font-size: 12px; color: #666; margin-top: 3px">
+          Portieri
+        </div>
+        <input
+          type="number"
+          id="budget-portieri"
+          value="100"
+          min="0"
+          disabled
+        />
+      </div>
+      <div class="budget-input">
+        <i class="fas fa-shield-alt" style="color: rgb(13, 255, 0);"></i>
+        <div style="font-size: 12px; color: #666; margin-top: 4px">
+          Difensori
+        </div>
+        <input
+          type="number"
+          id="budget-difensori"
+          value="300"
+          min="0"
+          disabled
+        />
+      </div>
+      <div class="budget-input">
+        <i class="fas fa-futbol" style="color: #007bff;"></i>
+        <div style="font-size: 12px; color: #666; margin-top: 4px">
+          Centrocampisti
+        </div>
+        <input
+          type="number"
+          id="budget-centrocampisti"
+          value="400"
+          min="0"
+          disabled
+        />
+      </div>
+      <div class="budget-input">
+        <i class="fas fa-bolt" style="color: red;"></i>
+        <div style="font-size: 12px; color: #666; margin-top: 4px">
+          Attaccanti
+        </div>
+        <input
+          type="number"
+          id="budget-attaccanti"
+          value="200"
+          min="0"
+          disabled
+        />
+      </div>
+    </div>
 
-// Genera le tabelle dinamicamente
-function generaTabelle() {
-    let html = '';
-    reparti.forEach(r => {
-        html += `<div class="category ${r.id}">`;
-        html += `<h2><i class="${r.icona}"></i> ${r.nome}</h2>`;
-        html += `<table><thead><tr><th>#</th><th>Nome Giocatore</th><th>Prezzo</th><th></th></tr></thead>`;
-        html += `<tbody id="${r.id}">`;
-        for (let i = 1; i <= r.n; i++) {
-            html += `<tr>`;
-            html += `<td>${i}.</td>`;
-            html += `<td><input type="text" class="player-input" placeholder="Nome Giocatore" data-index="${i-1}"></td>`;
-            html += `<td><input type="number" class="price-input" min="0" value="0"></td>`;
-            html += `<td><button class="remove-player-btn" onclick="rimuoviGiocatore(this)"><i class="fas fa-times-circle"></i></button></td>`;
-            html += `</tr>`;
-        }
-        html += `</tbody></table>`;
-        html += `<div class="tot-reparto" id="tot-${r.id}">Totale ${r.nome}: 0</div>`;
-        html += `</div>`;
-    });
-    document.body.insertAdjacentHTML('beforeend', html);
-}
+    <script>
+      let budgetIniziale = 1000;
 
-// Aggiorna budget e totali
-function aggiornaBudget() {
-    let totaleGenerale = 0;
-    reparti.forEach(r => {
-        let tot = 0;
-        document.querySelectorAll(`#${r.id} .price-input`).forEach(i => {
-            let v = parseInt(i.value);
-            if (!isNaN(v) && v > 0) {
-                tot += v;
-            }
-        });
-        const divTot = document.getElementById(`tot-${r.id}`);
-        divTot.innerText = `Totale ${r.nome}: ${tot}`;
-        divTot.style.background = tot > (budgetIniziale * 0.4) ? "#ffd8d8" : "#f8fafc";
-        totaleGenerale += tot;
-    });
+      const reparti = [
+        {
+          nome: "PORTIERI",
+          id: "portieri",
+          n: 3,
+          icona: "fas fa-hand-paper",
+          budget: 100,
+        },
+        {
+          nome: "DIFENSORI",
+          id: "difensori",
+          n: 8,
+          icona: "fas fa-shield-alt",
+          budget: 300,
+        },
+        {
+          nome: "CENTROCAMPISTI",
+          id: "centrocampisti",
+          n: 8,
+          icona: "fas fa-futbol",
+          budget: 400,
+        },
+        {
+          nome: "ATTACCANTI",
+          id: "attaccanti",
+          n: 6,
+          icona: "fas fa-bolt",
+          budget: 200,
+        },
+      ];
 
-    const totaleSpesoEl = document.getElementById("totaleSpeso");
-    const creditiRimastiEl = document.getElementById("creditiRimasti");
-    
-    totaleSpesoEl.textContent = totaleGenerale;
-    creditiRimastiEl.textContent = budgetIniziale - totaleGenerale;
-    
-    document.querySelector('#totaleSpeso').parentElement.classList.add('animate');
-    document.querySelector('#creditiRimasti').parentElement.classList.add('animate');
-    setTimeout(() => {
-        document.querySelector('#totaleSpeso').parentElement.classList.remove('animate');
-        document.querySelector('#creditiRimasti').parentElement.classList.remove('animate');
-    }, 400);
+   function generaTabelle() {
+  reparti.forEach((r) => {
+  const container = document.createElement("div");
+container.className = `category ${r.id}`;
+container.style.overflow = "hidden"; // così border-radius funziona sull'h2
+container.innerHTML = `
+  <h2 class="category-title title-${r.id}">
+    <i class="${r.icona}"></i> ${r.nome}
+  </h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome Giocatore</th>
+          <th>Prezzo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="${r.id}"></tbody>
+    </table>
+  </div>
+  <div class="tot-reparto verde" id="tot-${r.id}">
+    Totale ${r.nome}: 0 / ${r.budget}
+  </div>
+  <div class="budget-info" id="info-${r.id}">
+    Budget base: ${r.budget}
+  </div>
+`;
 
-    salvaDati();
-}
 
-// Rimozione di un giocatore
-function rimuoviGiocatore(btn) {
-    const row = btn.closest('tr');
-    row.querySelector('.player-input').value = '';
-    row.querySelector('.price-input').value = '0';
-    aggiornaBudget();
-}
+    document.body.appendChild(container);
 
-// Salvataggio su localStorage
-function salvaDati() {
-    const dati = {};
-    reparti.forEach(r => {
-        dati[r.id] = [];
-        document.querySelectorAll(`#${r.id} tr`).forEach(tr => {
-            const nome = tr.querySelector(".player-input").value;
-            const prezzo = tr.querySelector(".price-input").value;
-            dati[r.id].push({ nome, prezzo });
-        });
-    });
-    localStorage.setItem("fantacalcioAsta", JSON.stringify(dati));
-}
+    const tbody = container.querySelector("tbody");
 
-// Recupero dati da localStorage
-function caricaDati() {
-    const dati = JSON.parse(localStorage.getItem("fantacalcioAsta"));
-    if (!dati) return;
-
-    reparti.forEach(r => {
-        const rows = document.querySelectorAll(`#${r.id} tr`);
-        rows.forEach((tr, i) => {
-            if (dati[r.id] && dati[r.id][i]) {
-                tr.querySelector(".player-input").value = dati[r.id][i].nome;
-                tr.querySelector(".price-input").value = dati[r.id][i].prezzo;
-            }
-        });
-    });
-    aggiornaBudget();
-}
-
-// Scarica CSV
-function scaricaDati() {
-    let csv = "Reparto,Numero,Nome,Prezzo\n";
-    reparti.forEach(r => {
-        document.querySelectorAll(`#${r.id} tr`).forEach((tr, i) => {
-            const nome = tr.querySelector(".player-input").value.replace(/,/g, '');
-            const prezzo = tr.querySelector(".price-input").value;
-            csv += `${r.nome},${i + 1},${nome},${prezzo}\n`;
-        });
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "fantacalcio_squadra.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    for (let i = 1; i <= r.n; i++) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${i}</td>
+        <td><input type="text" class="player-input" placeholder="Nome giocatore"></td>
+        <td><input type="number" class="price-input" min="0" value="0" onchange="aggiornaBudget()"></td>
+        <td>
+          <button class="remove-player-btn" onclick="rimuoviGiocatore(this)">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
     }
+  });
 }
 
-// Funzione per resettare i dati
-function resetDati() {
-    if (confirm("Sei sicuro di voler resettare tutti i dati? Questa azione non può essere annullata.")) {
-        localStorage.removeItem("fantacalcioAsta");
-        document.querySelectorAll('input').forEach(input => input.value = '');
+      function rimuoviGiocatore(btn) {
+        const tr = btn.closest("tr");
+        tr.querySelector(".player-input").value = "";
+        tr.querySelector(".price-input").value = 0;
         aggiornaBudget();
-    }
-}
+      }
 
-// Listener per gli input
-document.addEventListener("DOMContentLoaded", () => {
-    generaTabelle();
-    caricaDati();
+      function aggiornaBudgetTotale() {
+        budgetIniziale =
+          parseInt(document.getElementById("budgetTotaleInput").value) || 1000;
+        aggiornaBudget();
+      }
 
-    document.querySelectorAll('.player-input, .price-input').forEach(input => {
-        input.addEventListener('input', aggiornaBudget);
-    });
+      function aggiornaBudget() {
+        let totaleSpeso = 0,
+          rollover = 0;
+        reparti.forEach((r) => {
+          const prezzi = document.querySelectorAll(`#${r.id} .price-input`);
+          let speso = 0;
+          prezzi.forEach((i) => (speso += parseInt(i.value) || 0));
+          let budgetEffettivo = r.budget + rollover;
+          let colore = "verde",
+            mess = "";
+          if (speso > budgetEffettivo) {
+            colore = "rosso";
+            mess = ` (Sforato di ${speso - budgetEffettivo})`;
+          } else if (speso >= budgetEffettivo * 0.9) {
+            colore = "giallo";
+          } else if (speso < budgetEffettivo) {
+            colore = "blu";
+            mess = ` (Residuo: ${budgetEffettivo - speso})`;
+          }
+          const box = document.getElementById(`tot-${r.id}`);
+          box.className = `tot-reparto ${colore}`;
+          box.textContent = `Totale ${r.nome}: ${speso} / ${budgetEffettivo}${mess}`;
+          const info = document.getElementById(`info-${r.id}`);
+          if (budgetEffettivo !== r.budget) {
+            info.textContent = `Budget base: ${r.budget} ${
+              budgetEffettivo > r.budget
+                ? "+ " + (budgetEffettivo - r.budget)
+                : "- " + (r.budget - budgetEffettivo)
+            } (da reparto precedente)`;
+          } else {
+            info.textContent = `Budget base: ${r.budget}`;
+          }
+          rollover = budgetEffettivo - speso;
+          totaleSpeso += speso;
+        });
+        const rim = document.getElementById("budgetRimanente");
+        rim.textContent = budgetIniziale - totaleSpeso;
+        rim.style.color =
+          budgetIniziale - totaleSpeso < 0 ? "#dc3545" : "#2e8b57";
+        const totRipartito = reparti.reduce((a, r) => a + r.budget, 0);
+        const ripBox = document.getElementById("budgetRipartito");
+        ripBox.textContent = `Ripartizione: ${totRipartito} / ${budgetIniziale}`;
+        if (totRipartito > budgetIniziale) {
+          ripBox.style.background = "#f8d7da";
+          ripBox.style.color = "#721c24";
+        } else {
+          ripBox.style.background = "rgba(255,255,255,0.1)";
+          ripBox.style.color = "white";
+        }
+      }
+
+      function aggiornaBudgetReparto(id) {
+        const val =
+          parseInt(document.getElementById(`budget-${id}`).value) || 0;
+        const r = reparti.find((x) => x.id === id);
+        r.budget = val;
+        aggiornaBudget();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const editRepartiBtn = document.getElementById("editRepartiBtn");
+        editRepartiBtn.addEventListener("click", () => {
+          const inputs = reparti.map((r) =>
+            document.getElementById(`budget-${r.id}`)
+          );
+          if (inputs[0].disabled) {
+            inputs.forEach((i) => (i.disabled = false));
+            editRepartiBtn.innerHTML =
+              '<i class="fas fa-check" style="color:#2e8b57"></i>';
+          } else {
+            inputs.forEach((i) => (i.disabled = true));
+            editRepartiBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            reparti.forEach((r) => aggiornaBudgetReparto(r.id));
+          }
+        });
+
+        const editTotaleBtn = document.getElementById("editBudgetBtn");
+        editTotaleBtn.addEventListener("click", () => {
+          const totInput = document.getElementById("budgetTotaleInput");
+          if (totInput.disabled) {
+            totInput.disabled = false;
+            totInput.focus();
+            editTotaleBtn.innerHTML =
+              '<i class="fas fa-check" style="color:#2e8b57"></i>';
+          } else {
+            totInput.disabled = true;
+            editTotaleBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            aggiornaBudgetTotale();
+          }
+        });
+      });
+
+      generaTabelle();
+      aggiornaBudget();
+
+      const budgetSelect = document.getElementById("budgetTotaleSelect");
+budgetSelect.addEventListener("change", () => {
+  budgetIniziale = parseInt(budgetSelect.value);
+  aggiornaBudget();
 });
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
