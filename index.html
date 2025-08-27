@@ -18,7 +18,14 @@
       }
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0b3d0b, #136a13, #1f8a1f, #38c138, #a3f7a3);
+        background: linear-gradient(
+          135deg,
+          #0b3d0b,
+          #136a13,
+          #1f8a1f,
+          #38c138,
+          #a3f7a3
+        );
 
         color: #333;
         margin: 0;
@@ -27,6 +34,24 @@
         font-size: 16px;
         line-height: 1.4;
       }
+      .title-div {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        background-color: white;
+        border-radius: 12px;
+      }
+
+      h1.title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: #2e8b57; 
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        border-radius: 12px;
+      }
+
       .header {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -109,42 +134,41 @@
         outline: none;
         box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
       }
-     .category {
-  background: white;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  overflow: hidden; 
-  padding: 0px; 
-}
+      .category {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 0px;
+      }
 
-.category-title {
-  padding: 12px 15px;
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  color: white;
-  margin: 0;
-}
+      .category-title {
+        padding: 12px 15px;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        color: white;
+        margin: 0;
+      }
 
-
-/* Colori diversi per ogni categoria */
-.title-portieri {
-  background: orange;
-}
-.title-difensori {
-  background: rgb(13, 255, 0);
-}
-.title-centrocampisti {
-  background: blue;
-}
-.title-attaccanti {
-  background: red;
-}
+      /* Colori diversi per ogni categoria */
+      .title-portieri {
+        background: orange;
+      }
+      .title-difensori {
+        background: rgb(13, 255, 0);
+      }
+      .title-centrocampisti {
+        background: blue;
+      }
+      .title-attaccanti {
+        background: red;
+      }
 
       .table-container {
         overflow-x: auto;
@@ -227,9 +251,12 @@
         font-size: 16px;
       }
       .budget-info {
-        font-size: 13px;
-        margin-top: 8px;
-        padding: 8px 12px;
+        font-size: 14px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        font-weight: bold;
         background: #f8f9fa;
         text-align: center;
       }
@@ -264,28 +291,60 @@
       .edit-btn:active {
         opacity: 0.6;
       }
+      #budgetTotaleSelect {
+        width: 100px;
+        padding: 8px 10px;
+        border-radius: 12px;
+        border: 2px solid #2e8b57;
+        background: linear-gradient(135deg, #38c138, #1f8a1f);
+        font-weight: bold;
+        font-size: 15px;
+        text-align: center;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease-in-out;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+      }
 
-   
+      #budgetTotaleSelect:focus {
+        border-color: #38c138;
+        box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.3);
+        outline: none;
+      }
+
+      #budgetTotaleSelect option {
+        background: white;
+        color: #333;
+        padding: 8px 12px;
+      }
     </style>
   </head>
   <body>
+    <div class="title-div">
+      <h1 class="title">Fantacalcio Budget Tool</h1>
+    </div>
     <div class="header">
-  <div class="stat-box">
-    <i class="fa-solid fa-wallet" style="color: black;"></i>
-    <div>Totale Budget</div>
-    <select id="budgetTotaleSelect" style="width:100px; padding:8px; border-radius:8px; border:1px solid #ccc; text-align:center;">
-      <option value="500">500</option>
-      <option value="750">750</option>
-      <option value="1000" selected>1000</option>
-    </select>
-  </div>
-  <div class="stat-box">
-    <i class="fa-solid fa-coins" style="color: goldenrod;"></i>
-    <div>Rimanente</div>
-    <div id="budgetRimanente" class="stat-value">1000</div>
-  </div>
-</div>
-
+      <div class="stat-box">
+        <i class="fa-solid fa-wallet" style="color: black"></i>
+        <div>Totale Budget</div>
+        <select id="budgetTotaleSelect">
+          <option value="500">500</option>
+          <option value="750">750</option>
+          <option value="1000" selected>1000</option>
+        </select>
+      </div>
+      <div class="stat-box">
+        <i class="fa-solid fa-coins" style="color: goldenrod"></i>
+        <div>Rimanente</div>
+        <div id="budgetRimanente" class="stat-value">1000</div>
+      </div>
+    </div>
 
     <div class="budget-counter" id="budgetRipartito">
       Ripartizione: 1000 / 1000
@@ -295,13 +354,19 @@
       <button
         id="editRepartiBtn"
         class="edit-btn"
-        style="position: absolute; top: 6px; right: 6px; font-size: 18px; z-index: 1000;"
+        style="
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          font-size: 18px;
+          z-index: 1000;
+        "
       >
         <i class="fas fa-pencil-alt"></i>
       </button>
 
       <div class="budget-input">
-        <i class="fas fa-hand-paper" style="color: orange;"></i>
+        <i class="fas fa-hand-paper" style="color: orange"></i>
         <div style="font-size: 12px; color: #666; margin-top: 3px">
           Portieri
         </div>
@@ -314,7 +379,7 @@
         />
       </div>
       <div class="budget-input">
-        <i class="fas fa-shield-alt" style="color: rgb(13, 255, 0);"></i>
+        <i class="fas fa-shield-alt" style="color: rgb(13, 255, 0)"></i>
         <div style="font-size: 12px; color: #666; margin-top: 4px">
           Difensori
         </div>
@@ -327,7 +392,7 @@
         />
       </div>
       <div class="budget-input">
-        <i class="fas fa-futbol" style="color: #007bff;"></i>
+        <i class="fas fa-futbol" style="color: #007bff"></i>
         <div style="font-size: 12px; color: #666; margin-top: 4px">
           Centrocampisti
         </div>
@@ -340,7 +405,7 @@
         />
       </div>
       <div class="budget-input">
-        <i class="fas fa-bolt" style="color: red;"></i>
+        <i class="fas fa-bolt" style="color: red"></i>
         <div style="font-size: 12px; color: #666; margin-top: 4px">
           Attaccanti
         </div>
@@ -388,12 +453,12 @@
         },
       ];
 
-   function generaTabelle() {
-  reparti.forEach((r) => {
-  const container = document.createElement("div");
-container.className = `category ${r.id}`;
-container.style.overflow = "hidden"; // così border-radius funziona sull'h2
-container.innerHTML = `
+      function generaTabelle() {
+        reparti.forEach((r) => {
+          const container = document.createElement("div");
+          container.className = `category ${r.id}`;
+          container.style.overflow = "hidden"; // così border-radius funziona sull'h2
+          container.innerHTML = `
   <h2 class="category-title title-${r.id}">
     <i class="${r.icona}"></i> ${r.nome}
   </h2>
@@ -418,14 +483,13 @@ container.innerHTML = `
   </div>
 `;
 
+          document.body.appendChild(container);
 
-    document.body.appendChild(container);
+          const tbody = container.querySelector("tbody");
 
-    const tbody = container.querySelector("tbody");
-
-    for (let i = 1; i <= r.n; i++) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+          for (let i = 1; i <= r.n; i++) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
         <td>${i}</td>
         <td><input type="text" class="player-input" placeholder="Nome giocatore"></td>
         <td><input type="number" class="price-input" min="0" value="0" onchange="aggiornaBudget()"></td>
@@ -435,10 +499,10 @@ container.innerHTML = `
           </button>
         </td>
       `;
-      tbody.appendChild(tr);
-    }
-  });
-}
+            tbody.appendChild(tr);
+          }
+        });
+      }
 
       function rimuoviGiocatore(btn) {
         const tr = btn.closest("tr");
@@ -460,7 +524,16 @@ container.innerHTML = `
           const prezzi = document.querySelectorAll(`#${r.id} .price-input`);
           let speso = 0;
           prezzi.forEach((i) => (speso += parseInt(i.value) || 0));
-          let budgetEffettivo = r.budget + rollover;
+
+          // Prendi il budget attuale dall'input, così il budget base si aggiorna
+          const inputBudget = document.getElementById(`budget-${r.id}`);
+          let budgetEffettivo = parseInt(inputBudget.value) || 0;
+
+          // Aggiorna il budget base visibile
+          const infoBox = document.getElementById(`info-${r.id}`);
+          infoBox.textContent = `Budget base: ${budgetEffettivo}`;
+
+          // Colori come prima
           let colore = "verde",
             mess = "";
           if (speso > budgetEffettivo) {
@@ -470,29 +543,41 @@ container.innerHTML = `
             colore = "giallo";
           } else if (speso < budgetEffettivo) {
             colore = "blu";
-            mess = ` (Residuo: ${budgetEffettivo - speso})`;
+            mess = ` (Residuo: ${r.budget + rollover})`;
           }
+
           const box = document.getElementById(`tot-${r.id}`);
           box.className = `tot-reparto ${colore}`;
-          box.textContent = `Totale ${r.nome}: ${speso} / ${budgetEffettivo}${mess}`;
-          const info = document.getElementById(`info-${r.id}`);
-          if (budgetEffettivo !== r.budget) {
-            info.textContent = `Budget base: ${r.budget} ${
-              budgetEffettivo > r.budget
-                ? "+ " + (budgetEffettivo - r.budget)
-                : "- " + (r.budget - budgetEffettivo)
-            } (da reparto precedente)`;
-          } else {
-            info.textContent = `Budget base: ${r.budget}`;
-          }
+          box.innerHTML = `
+  Totale ${r.nome}: ${speso} / ${budgetEffettivo}${mess}
+  <div style="font-size: 12px; color: #666; margin-top:4px;">
+    ${
+      rollover > 0
+        ? `(da reparto precedente: ${rollover} → totale effettivo: ${
+            r.budget + rollover
+          })`
+        : `(Residuo budget: ${budgetEffettivo - speso})`
+    }
+  </div>
+
+`;
+
+          box.className = `tot-reparto ${colore}`;
+
           rollover = budgetEffettivo - speso;
           totaleSpeso += speso;
         });
+
         const rim = document.getElementById("budgetRimanente");
         rim.textContent = budgetIniziale - totaleSpeso;
         rim.style.color =
           budgetIniziale - totaleSpeso < 0 ? "#dc3545" : "#2e8b57";
-        const totRipartito = reparti.reduce((a, r) => a + r.budget, 0);
+
+        const totRipartito = reparti.reduce(
+          (a, r) =>
+            a + parseInt(document.getElementById(`budget-${r.id}`).value || 0),
+          0
+        );
         const ripBox = document.getElementById("budgetRipartito");
         ripBox.textContent = `Ripartizione: ${totRipartito} / ${budgetIniziale}`;
         if (totRipartito > budgetIniziale) {
@@ -549,10 +634,10 @@ container.innerHTML = `
       aggiornaBudget();
 
       const budgetSelect = document.getElementById("budgetTotaleSelect");
-budgetSelect.addEventListener("change", () => {
-  budgetIniziale = parseInt(budgetSelect.value);
-  aggiornaBudget();
-});
+      budgetSelect.addEventListener("change", () => {
+        budgetIniziale = parseInt(budgetSelect.value);
+        aggiornaBudget();
+      });
     </script>
   </body>
 </html>
