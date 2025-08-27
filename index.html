@@ -849,6 +849,14 @@
       function updateWishlistDisplay(repartoId) {
         const container = document.getElementById(`wishlist-${repartoId}`);
         const players = wishlist[repartoId];
+
+         players.sort((a, b) => {
+    const nameA = a.nome.toLowerCase();
+    const nameB = b.nome.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
         if (players.length === 0) {
           container.innerHTML =
             '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
