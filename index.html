@@ -660,7 +660,7 @@
           <i class="fas fa-calculator"></i> Budget & Rosa
         </button>
         <button class="tab-btn" onclick="switchTab('wishlist')">
-          <i class="fas fa-star"></i> Lista Desideri
+          <i class="fas fa-star"></i> Lista Preferiti
         </button>
       </div>
 
@@ -928,52 +928,58 @@
         }
       }
 
-      function updateWishlistDisplay(repartoId) {
-        const container = document.getElementById(`wishlist-${repartoId}`);
-        let players = wishlist[repartoId] || [];
+    function updateWishlistDisplay(repartoId) {
+  const container = document.getElementById(`wishlist-${repartoId}`);
+  let players = wishlist[repartoId] || [];
 
-        if (players.length === 0) {
-          container.innerHTML =
-            '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
-        } else {
-          container.innerHTML = players
-            .map(
-              (player) => `
-        <div class="wishlist-item priority-${player.priority || 0}">
-          <input type="text" class="wishlist-player-name" value="${
-            player.nome
-          }" placeholder="Nome giocatore"
-            onchange="updateWishlistPlayer('${repartoId}', ${
-                player.id
-              }, 'nome', this.value)">
-          <input type="number" class="wishlist-max-price" value="${
-            player.maxPrice
-          }" min="0" placeholder="Max €"
-            onchange="updateWishlistPlayer('${repartoId}', ${
-                player.id
-              }, 'maxPrice', this.value)">
-          <div class="wishlist-actions">
-            <button class="priority-btn" onclick="togglePriority('${repartoId}', ${
-                player.id
-              })" title="Cambia priorità">⚡</button>
-            <button class="acquire-btn" onclick="acquirePlayer('${repartoId}', ${
-                player.id
-              })"><i class="fas fa-plus-circle"></i></button>
-            <button class="remove-wishlist-btn" onclick="removeWishlistPlayer('${repartoId}', ${
-                player.id
-              })"><i class="fas fa-trash"></i></button>
-          </div>
-        </div>
-      `
-            )
-            .join("");
-        }
+  if (players.length === 0) {
+    container.innerHTML =
+      '<div class="empty-wishlist">Nessun giocatore nella lista desideri</div>';
+  } else {
+    // Ordina i giocatori alfabeticamente per nome
+    const sortedPlayers = players.sort((a, b) => {
+      const nomeA = a.nome.toLowerCase();
+      const nomeB = b.nome.toLowerCase();
+      return nomeA.localeCompare(nomeB);
+    });
 
-        // aggiorna sempre il contatore
-        const countSpan = document.getElementById(`count-${repartoId}`);
-        if (countSpan) countSpan.textContent = players.length;
-      }
+    container.innerHTML = sortedPlayers
+      .map(
+        (player) => `
+    <div class="wishlist-item priority-${player.priority || 0}">
+      <input type="text" class="wishlist-player-name" value="${
+        player.nome
+      }" placeholder="Nome giocatore"
+        onchange="updateWishlistPlayer('${repartoId}', ${
+          player.id
+        }, 'nome', this.value)">
+      <input type="number" class="wishlist-max-price" value="${
+        player.maxPrice
+      }" min="0" placeholder="Max €"
+        onchange="updateWishlistPlayer('${repartoId}', ${
+          player.id
+        }, 'maxPrice', this.value)">
+      <div class="wishlist-actions">
+        <button class="priority-btn" onclick="togglePriority('${repartoId}', ${
+          player.id
+        })" title="Cambia priorità">⚡</button>
+        <button class="acquire-btn" onclick="acquirePlayer('${repartoId}', ${
+          player.id
+        })"><i class="fas fa-plus-circle"></i></button>
+        <button class="remove-wishlist-btn" onclick="removeWishlistPlayer('${repartoId}', ${
+          player.id
+        })"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  `
+      )
+      .join("");
+  }
 
+  // aggiorna sempre il contatore
+  const countSpan = document.getElementById(`count-${repartoId}`);
+  if (countSpan) countSpan.textContent = players.length;
+}
       // funzione per cambiare priorità al click
       function togglePriority(repartoId, playerId) {
         const player = wishlist[repartoId].find((p) => p.id === playerId);
